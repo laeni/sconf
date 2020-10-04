@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <!-- 控制台记录器使用Spring默认的 -->
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+  <root>
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+</configuration>

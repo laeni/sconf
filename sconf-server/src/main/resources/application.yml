@@ -1,0 +1,64 @@
+server:
+  servlet:
+    session:
+      timeout: 180
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+spring:
+  profiles:
+    active:
+      - env
+  datasource:
+    druid:
+      #      connection-properties: config.decrypt=true;config.decrypt.key=${spring.datasource.druid.public-key}
+      #      filters: config,mergeStat,wall
+      initial-size: 5
+      log-abandoned: true
+      max-active: 50
+      max-pool-prepared-statement-per-connection-size: 0
+      max-wait: 30000
+      min-evictable-idle-time-millis: 300000
+      min-idle: 20
+      pool-prepared-statements: false
+      remove-abandoned: true
+      remove-abandoned-timeout: 60
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      validation-query: SELECT 'x' FROM DUAL
+    url: jdbc:h2:file:./h2
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      jdbc:
+        batch_size: 10
+        batch_versioned_data: true
+      order_inserts: true
+      order_updates: true
+      globally_quoted_identifiers: true
+    open-in-view: true
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      # 忽略空属性对象序列化异常
+      FAIL_ON_EMPTY_BEANS: false
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    user:
+      name: root
+      password: root
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  output:
+    ansi:
+      enabled: always
+  h2:
+    console:
+      enabled: true

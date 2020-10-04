@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active:
+      - dev
+  application:
+    name: sconf
+# 日志配置
+#logging:
+#  level:
+#    root: info
