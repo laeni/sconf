@@ -12,9 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * package cn.laeni.sconf.service.core;
  */
-package cn.laeni.sconf.server
+package cn.laeni.sconf
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

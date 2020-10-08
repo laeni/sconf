@@ -1,4 +1,5 @@
 server:
+  port: 8009
   servlet:
     session:
       timeout: 180
@@ -41,6 +42,8 @@ spring:
       order_updates: true
       globally_quoted_identifiers: true
     open-in-view: true
+    generate-ddl: true
+    show-sql: true
   jackson:
     default-property-inclusion: non_null
     serialization:
