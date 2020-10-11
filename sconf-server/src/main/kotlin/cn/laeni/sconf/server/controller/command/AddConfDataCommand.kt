@@ -13,42 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.entity
+package cn.laeni.sconf.server.controller.command
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import javax.persistence.*
+import cn.laeni.sconf.server.entity.ConfDataEntity
 
 /**
- * 客户端列表.
+ * 添加客户端的菜单(配置分组).
  *
  * @author Laeni
  */
-@Entity
-@Table(name = "tbl_conf_client")
-@EntityListeners(AuditingEntityListener::class)
-data class ClientEntity(
+data class AddConfDataCommand(
     /**
-     * 自增Id.
+     * 配置名.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null,
-
-    /**
-     * 客户端名称.
-     */
-    @Column(name = "p_name")
     var name: String? = null,
 
     /**
-     * 客户端描述说明.
+     * 是否启用.
      */
-    @Column(name = "p_desc")
-    var desc: String? = null,
+    var enable: Boolean? = null,
 
     /**
-     * 本客户端应用配置界面的所有菜单.
+     * 优先级.
      */
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    var menus: List<MenuEntity>? = null
+    var priority: Int? = 0,
+
+    // 配置类型(properties | yml | 配置项)
+    var type: ConfDataEntity.Type? = null
 )

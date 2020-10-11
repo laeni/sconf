@@ -35,7 +35,10 @@ data class ConfDataEntityVO(
     // 示例(纯文本配置时提供响应的示例很重要)
 ) {
   companion object {
-    fun toVo(entity: ConfDataEntity): ConfDataEntityVO {
+    fun toVo(entity: ConfDataEntity?): ConfDataEntityVO? {
+      if (entity == null) {
+        return null
+      }
       return ConfDataEntityVO(
           id = entity.id,
           name = entity.name,
@@ -45,7 +48,7 @@ data class ConfDataEntityVO(
       )
     }
 
-    fun toVo(entities: Collection<ConfDataEntity>): Collection<ConfDataEntityVO> {
+    fun toVo(entities: Collection<ConfDataEntity>): Collection<ConfDataEntityVO?> {
       return entities.stream().map { entity -> toVo(entity) }.collect(Collectors.toList())
     }
   }

@@ -39,7 +39,10 @@ data class ClientEntityBaseInfoVO(
     var desc: String? = null
 ) {
   companion object {
-    fun toVo(entity: ClientEntity): ClientEntityBaseInfoVO {
+    fun toVo(entity: ClientEntity?): ClientEntityBaseInfoVO? {
+      if (entity == null) {
+        return null
+      }
       return ClientEntityBaseInfoVO(
           id = entity.id,
           name = entity.name,
@@ -47,7 +50,7 @@ data class ClientEntityBaseInfoVO(
       )
     }
 
-    fun toVo(entities: Collection<ClientEntity>): Collection<ClientEntityBaseInfoVO> {
+    fun toVo(entities: Collection<ClientEntity>): Collection<ClientEntityBaseInfoVO?> {
       return entities.stream().map { entity -> toVo(entity) }.collect(Collectors.toList())
     }
   }

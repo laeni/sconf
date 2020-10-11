@@ -61,6 +61,11 @@ data class ConfDataEntity(
      * json 格式的字符串配置.
      * @see
      */
-    ITEM;
+    ITEM,
+    /**
+     * 文件.
+     * 如证书等.
+     */
+    FILE;
   }
 }

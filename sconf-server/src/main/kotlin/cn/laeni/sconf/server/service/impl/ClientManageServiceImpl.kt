@@ -17,10 +17,13 @@ package cn.laeni.sconf.server.service.impl
 
 import cn.laeni.personal.exception.ClientException
 import cn.laeni.sconf.exception.ClientErrorCode
+import cn.laeni.sconf.server.controller.command.AddMenuCommand
 import cn.laeni.sconf.server.controller.command.CreateClientCommand
 import cn.laeni.sconf.server.entity.ClientEntity
 import cn.laeni.sconf.server.entity.ConfDataEntity
+import cn.laeni.sconf.server.entity.MenuEntity
 import cn.laeni.sconf.server.repository.ClientEntityRepository
+import cn.laeni.sconf.server.repository.MenuEntityRepository
 import cn.laeni.sconf.server.service.ClientManageService
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -30,7 +33,8 @@ import javax.transaction.Transactional
  */
 @Service
 class ClientManageServiceImpl(
-    private val clientEntityRepository: ClientEntityRepository) : ClientManageService {
+    private val clientEntityRepository: ClientEntityRepository,
+    private val menuEntityRepository: MenuEntityRepository) : ClientManageService {
 
   @Transactional(rollbackOn = [Exception::class])
   override fun getAllClient(): Collection<ClientEntity> {
@@ -50,8 +54,22 @@ class ClientManageServiceImpl(
   }
 
   @Transactional(rollbackOn = [Exception::class])
-  override fun getClientConfList(id: Int): Collection<ConfDataEntity> {
+  override fun getClientConfList(id: Int): Collection<MenuEntity> {
     val clientEntity = clientEntityRepository.findById(id).orElseThrow { ClientException(ClientErrorCode.CLIENT_NOT_FOND) }
-    return clientEntity.datas!!
+    return clientEntity.menus!!
+  }
+
+  @Transactional(rollbackOn = [Exception::class])
+  override fun addMenu(addMenuCommand: AddMenuCommand): MenuEntity {
+    val clientEntity = clientEntityRepository.findById(addMenuCommand.clientId!!).orElseThrow { ClientException(ClientErrorCode.CLIENT_NOT_FOND) }
+    // 可能有配置数据
+    val confData: ConfDataEntity? = when (val conf = addMenuCommand.confData) {
+      null -> null
+      else -> ConfDataEntity(name = conf.name, enable = conf.enable, priority = conf.priority, type = conf.type)
+    }
+    val menu = MenuEntity(parent = addMenuCommand.parent, title = addMenuCommand.title, confData = confData, client = clientEntity)
+    menuEntityRepository.save(menu)
+    clientEntity.menus!!.plus(menu)
+    return menu
   }
 }

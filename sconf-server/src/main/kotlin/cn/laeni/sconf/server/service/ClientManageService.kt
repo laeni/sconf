@@ -15,9 +15,12 @@
  */
 package cn.laeni.sconf.server.service
 
+import cn.laeni.sconf.server.controller.command.AddMenuCommand
 import cn.laeni.sconf.server.controller.command.CreateClientCommand
 import cn.laeni.sconf.server.entity.ClientEntity
-import cn.laeni.sconf.server.entity.ConfDataEntity
+import cn.laeni.sconf.server.entity.MenuEntity
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.RequestBody
 
 /**
  * 应用管理.
@@ -48,5 +51,10 @@ interface ClientManageService {
   /**
    * 获取客户端的所有配置列表(不包含具体的配置内容,由于陪孩子内容过大,需要单独获取).
    */
-  fun getClientConfList(id: Int): Collection<ConfDataEntity>
+  fun getClientConfList(id: Int): Collection<MenuEntity>
+
+  /**
+   * 添加配置或配置分组(菜单).
+   */
+  fun addMenu(addMenuCommand: AddMenuCommand): MenuEntity
 }
