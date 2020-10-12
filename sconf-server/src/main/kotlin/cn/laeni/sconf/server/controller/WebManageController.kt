@@ -62,16 +62,37 @@ class WebManageController(
   }
   // 修改应用
 
-  // 获取某个应用的配置分组(菜单)列表(仅列表的基本信息,不包好配置本身)
+  /**
+   * 获取某个应用的配置分组(菜单)列表(仅列表的基本信息,不包好配置本身).
+   *
+   * @param id 客户端Id
+   */
   @GetMapping("/client/conf_list")
   fun clientConfList(id: Int): Result<Collection<MenuVO?>> {
     return Result(MenuVO.toVo(clientManageService.getClientConfList(id)))
   }
 
-  // 创建某个应用的配置或配置分组(菜单)
+  /**
+   * 创建某个应用的配置或配置分组(菜单).
+   *
+   * @param addMenuCommand 待添加的配置或配置分组
+   */
   @PutMapping("/client/conf")
   fun addMenu(@RequestBody @Validated addMenuCommand: AddMenuCommand): Result<MenuVO> {
     return Result(MenuVO.toVo(clientManageService.addMenu(addMenuCommand))!!)
+  }
+
+  /**
+   * 删除某个应用的配置或配置分组(菜单).
+   * 如果删除的是分组,并且分组下面有子菜单,则将子菜单移动到与该分组同级别下.
+   *
+   * @param clientId 待删除配置或分组的客户端
+   * @param menuId   待删除的配置或分组Id
+   * @return 返回被修改的配置或分组
+   */
+  @DeleteMapping("/client/conf")
+  fun removeMenu(clientId: Int, menuId: Int): Result<Collection<MenuVO?>> {
+    TODO()
   }
 
   // 修改应用配置(传入需修改的字段进行按需修改)
