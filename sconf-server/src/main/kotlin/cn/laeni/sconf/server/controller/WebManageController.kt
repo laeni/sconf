@@ -91,8 +91,9 @@ class WebManageController(
    * @return 返回被修改的配置或分组
    */
   @DeleteMapping("/client/conf")
-  fun removeMenu(clientId: Int, menuId: Int): Result<Collection<MenuVO?>> {
-    TODO()
+  fun removeMenu(clientId: Int, menuId: Int): Result<Unit> {
+    clientManageService.removeMenu(clientId, menuId)
+    return Result()
   }
 
   // 修改应用配置(传入需修改的字段进行按需修改)

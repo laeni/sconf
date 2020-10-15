@@ -13,31 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.controller.command
+package cn.laeni.sconf.server.controller.command;
 
-import cn.laeni.sconf.server.entity.ConfDataEntity
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.validation.constraints.NotBlank;
 
 /**
- * 添加客户端的菜单(配置分组).
+ * 创建客户端的必须数据.
  *
  * @author Laeni
  */
-data class AddConfDataCommand(
-    /**
-     * 配置名.
-     */
-    var name: String? = null,
+@Setter
+@Getter
+@ToString
+public class CreateClientCommand {
+  /**
+   * 客户端名称.
+   */
+  @NotBlank(message = "客户端名称不能为空")
+  private String name;
 
-    /**
-     * 是否启用.
-     */
-    var enable: Boolean? = null,
-
-    /**
-     * 优先级.
-     */
-    var priority: Int? = 0,
-
-    // 配置类型(properties | yml | 配置项)
-    var type: ConfDataEntity.Type? = null
-)
+  /**
+   * 客户端描述说明.
+   */
+  @NotBlank(message = "客户端描述说明不能为空")
+  private String desc;
+}

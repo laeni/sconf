@@ -13,39 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.controller.command
+package cn.laeni.sconf.server.controller.command;
 
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
+import cn.laeni.sconf.server.entity.ConfDataEntity;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 添加客户端的菜单(配置分组).
  *
  * @author Laeni
  */
-data class AddMenuCommand(
-    /**
-     * 客户端Id.
-     */
-    @NotNull(message = "客户端Id不能为空")
-    var clientId: Int? = null,
+@Setter
+@Getter
+@ToString
+public class AddConfDataCommand {
+  /**
+   * 配置名.
+   */
+  private String name;
 
-    /**
-     * 父菜单id.
-     *
-     * ```null```表示顶级菜单.
-     */
-    var parent: Int? = null,
+  /**
+   * 是否启用.
+   */
+  private Boolean enable;
 
-    /**
-     * 菜单名称.
-     */
-    @NotBlank(message = "菜单名称不能为空")
-    var title: String? = null,
+  /**
+   * 优先级.
+   */
+  private Integer priority;
 
-    /**
-     * 该菜单对应的配置内容.
-     * 如果为空则表示此菜单为菜单组.
-     */
-    var confData: AddConfDataCommand? = null
-)
+  /**
+   * 配置类型(properties | yml | 配置项).
+   */
+  private ConfDataEntity.Type type;
+}
