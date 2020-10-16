@@ -42,6 +42,7 @@ public class ClientEntity {
    * 自增Id.
    */
   @Id
+  @Getter
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 

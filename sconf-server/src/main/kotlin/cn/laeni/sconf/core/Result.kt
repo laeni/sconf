@@ -22,10 +22,8 @@ data class Result<T>(
     /**
      * 返回的具体数据.
      *
-     *
      * 只有成功时才可能会返回.
      * 某些成功的操作可能不会返回该结果.
-     *
      */
     val data: T? = null,
 
@@ -37,12 +35,12 @@ data class Result<T>(
   /**
    * 成功.并且包含业务返回数据.
    */
-  constructor(d: T): this(data = d)
+  constructor(d: T) : this(data = d)
 
   /**
    * 异常.
    *
    * @param errorInfo 具体异常描述
    */
-  constructor(errorInfo: ErrorInfo): this(code = errorInfo.errorCode, message = errorInfo.errorDesc)
+  constructor(errorInfo: ErrorInfo) : this(code = errorInfo.errorCode, message = errorInfo.errorDesc)
 }

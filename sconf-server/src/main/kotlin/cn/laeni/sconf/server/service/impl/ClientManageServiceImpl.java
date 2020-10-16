@@ -37,9 +37,9 @@ import java.util.Collection;
  */
 @Service
 public class ClientManageServiceImpl implements ClientManageService {
+
   private final ClientEntityRepository clientEntityRepository;
   private final MenuEntityRepository menuEntityRepository;
-
   public ClientManageServiceImpl(ClientEntityRepository clientEntityRepository, MenuEntityRepository menuEntityRepository) {
     this.clientEntityRepository = clientEntityRepository;
     this.menuEntityRepository = menuEntityRepository;
@@ -79,7 +79,7 @@ public class ClientManageServiceImpl implements ClientManageService {
     // 可能有配置数据
     val conf = addMenuCommand.getConfData();
     val confData = conf == null ? null : ConfDataEntity.builder().name(conf.getName()).enable(conf.getEnable()).priority(conf.getPriority()).type(conf.getType()).build();
-    val menu = MenuEntity.builder().parent(addMenuCommand.getParent()).title(addMenuCommand.getTitle()).confData(confData).client(clientEntity).build();
+    val menu = MenuEntity.builder().parentId(addMenuCommand.getParent()).title(addMenuCommand.getTitle()).confData(confData).client(clientEntity).build();
     menuEntityRepository.save(menu);
     clientEntity.getMenus().add(menu);
     return menu;
@@ -95,7 +95,7 @@ public class ClientManageServiceImpl implements ClientManageService {
     if (menu == null) {
       return;
     }
-    if (menu.getConfData() == null && clientEntity.getMenus().stream().allMatch(it -> it.getParent().equals(menu.getId()))) {
+    if (menu.getConfData() == null && clientEntity.getMenus().stream().anyMatch(it -> menu.getId().equals(it.getParentId()))) {
       throw new ClientException(ClientErrorCode.PARAM_ERROR);
     }
 

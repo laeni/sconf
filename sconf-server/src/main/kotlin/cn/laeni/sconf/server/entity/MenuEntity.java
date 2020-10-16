@@ -46,7 +46,7 @@ public class MenuEntity {
    * ```null```表示顶级菜单.
    */
   @Column(name = "p_data")
-  private Integer parent;
+  private Integer parentId;
 
   /**
    * 该菜单对应的配置内容.

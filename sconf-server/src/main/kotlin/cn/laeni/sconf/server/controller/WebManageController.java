@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.controller
+package cn.laeni.sconf.server.controller;
 
-import cn.laeni.sconf.core.Result
-import cn.laeni.sconf.server.controller.command.AddMenuCommand
-import cn.laeni.sconf.server.controller.command.CreateClientCommand
-import cn.laeni.sconf.server.controller.vo.ClientEntityBaseInfoVO
-import cn.laeni.sconf.server.controller.vo.MenuVO
-import cn.laeni.sconf.server.service.ClientManageService
-import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.*
+import cn.laeni.sconf.core.Result;
+import cn.laeni.sconf.server.controller.command.AddMenuCommand;
+import cn.laeni.sconf.server.controller.command.CreateClientCommand;
+import cn.laeni.sconf.server.controller.vo.ClientEntityBaseInfoVO;
+import cn.laeni.sconf.server.controller.vo.MenuVO;
+import cn.laeni.sconf.server.service.ClientManageService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * Web管理页相关接口.
@@ -31,34 +33,40 @@ import org.springframework.web.bind.annotation.*
  */
 @RestController
 @RequestMapping("/api/manage")
-class WebManageController(
-    private val clientManageService: ClientManageService
-) {
+public class WebManageController {
+  private final ClientManageService clientManageService;
+
+  public WebManageController(ClientManageService clientManageService) {
+    this.clientManageService = clientManageService;
+  }
+
   /**
    * 获取所有应用列表的基本信息.
+   *
    * @return 所有应用的基本信息.
    */
   @GetMapping("/client")
-  fun allClientBaseInfo(): Result<Collection<ClientEntityBaseInfoVO?>> {
-    return Result(ClientEntityBaseInfoVO.toVo(clientManageService.getAllClient()))
+  public Result<Collection<ClientEntityBaseInfoVO>> allClientBaseInfo() {
+    return new Result<>(ClientEntityBaseInfoVO.toVo(clientManageService.getAllClient()));
   }
 
   /**
    * 创建新客户端应用.
+   *
    * @return 返回新创建后的客户端实例的基本信息
    */
   @PutMapping("/client")
-  fun createClient(@RequestBody @Validated command: CreateClientCommand): Result<ClientEntityBaseInfoVO?> {
-    return Result(ClientEntityBaseInfoVO.toVo(clientManageService.createClient(command)))
+  public Result<ClientEntityBaseInfoVO> createClient(@RequestBody @Validated CreateClientCommand command) {
+    return new Result<>(ClientEntityBaseInfoVO.toVo(clientManageService.createClient(command)));
   }
 
   /**
    * 删除应用.
    */
   @DeleteMapping("/client")
-  fun deleteClient(id: Int): Result<Unit> {
-    clientManageService.deleteClient(id)
-    return Result()
+  public Result<Void> deleteClient(Integer id) {
+    clientManageService.deleteClient(id);
+    return new Result<>();
   }
   // 修改应用
 
@@ -68,8 +76,8 @@ class WebManageController(
    * @param id 客户端Id
    */
   @GetMapping("/client/conf_list")
-  fun clientConfList(id: Int): Result<Collection<MenuVO?>> {
-    return Result(MenuVO.toVo(clientManageService.getClientConfList(id)))
+  public Result<Collection<MenuVO>> clientConfList(Integer id) {
+    return new Result<>(MenuVO.toVo(clientManageService.getClientConfList(id)));
   }
 
   /**
@@ -78,8 +86,8 @@ class WebManageController(
    * @param addMenuCommand 待添加的配置或配置分组
    */
   @PutMapping("/client/conf")
-  fun addMenu(@RequestBody @Validated addMenuCommand: AddMenuCommand): Result<MenuVO> {
-    return Result(MenuVO.toVo(clientManageService.addMenu(addMenuCommand))!!)
+  public Result<MenuVO> addMenu(@RequestBody @Validated AddMenuCommand addMenuCommand) {
+    return new Result<>(MenuVO.toVo(clientManageService.addMenu(addMenuCommand)));
   }
 
   /**
@@ -91,9 +99,9 @@ class WebManageController(
    * @return 返回被修改的配置或分组
    */
   @DeleteMapping("/client/conf")
-  fun removeMenu(clientId: Int, menuId: Int): Result<Unit> {
-    clientManageService.removeMenu(clientId, menuId)
-    return Result()
+  public Result<Void> removeMenu(Integer clientId, Integer menuId) {
+    clientManageService.removeMenu(clientId, menuId);
+    return new Result<>();
   }
 
   // 修改应用配置(传入需修改的字段进行按需修改)
