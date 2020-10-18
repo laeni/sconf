@@ -17,9 +17,12 @@ package cn.laeni.sconf.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -59,9 +62,30 @@ public class ClientEntity {
   private String desc;
 
   /**
+   * 创建时间
+   */
+  @Column(name = "create_time")
+  @CreatedDate
+  private LocalDateTime createTime;
+
+  /**
+   * 更新时间
+   */
+  @Column(name = "update_time")
+  @LastModifiedDate
+  private LocalDateTime updateTime;
+
+  /**
    * 本客户端应用配置界面的所有菜单.
    */
-  @JsonIgnoreProperties(value = {"ClientEntity"})
+  @JsonIgnoreProperties(value = {"client"})
   @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-  private List<MenuEntity> menus;
+  private List<ClientMenuEntity> menus;
+
+  /**
+   * 本客户端应用所有配置.
+   */
+  @JsonIgnoreProperties(value = {"client"})
+  @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+  private List<ConfDataEntity> confDatas;
 }

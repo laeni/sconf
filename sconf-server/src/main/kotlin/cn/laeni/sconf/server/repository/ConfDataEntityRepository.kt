@@ -13,39 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.controller.command;
+package cn.laeni.sconf.server.repository
 
-import cn.laeni.sconf.server.entity.ConfDataEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cn.laeni.sconf.server.entity.ConfDataEntity
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 
 /**
- * 添加客户端的菜单(配置分组).
- *
  * @author Laeni
  */
-@Setter
-@Getter
-@ToString
-public class AddConfDataCommand {
-  /**
-   * 配置名.
-   */
-  private String name;
-
-  /**
-   * 是否启用.
-   */
-  private Boolean enable;
-
-  /**
-   * 优先级.
-   */
-  private Integer priority;
-
-  /**
-   * 配置类型(properties | yml | 配置项).
-   */
-  private ConfDataEntity.Type type;
-}
+interface ConfDataEntityRepository : JpaSpecificationExecutor<ConfDataEntity>, JpaRepository<ConfDataEntity, Int>

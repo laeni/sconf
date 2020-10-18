@@ -15,12 +15,11 @@
  */
 package cn.laeni.sconf.server.repository
 
-import cn.laeni.sconf.server.entity.ClientEntity
-import cn.laeni.sconf.server.entity.MenuEntity
+import cn.laeni.sconf.server.entity.ClientMenuEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 
 /**
  * @author Laeni
  */
-interface MenuEntityRepository : JpaSpecificationExecutor<MenuEntity>, JpaRepository<MenuEntity, Int>
+interface MenuEntityRepository : JpaSpecificationExecutor<ClientMenuEntity>, JpaRepository<ClientMenuEntity, Int>

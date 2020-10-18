@@ -24,13 +24,14 @@ import javax.validation.constraints.NotNull;
 
 /**
  * 添加客户端的菜单(配置分组).
+ * 可以在创建菜单的同时创建配置.
  *
  * @author Laeni
  */
 @Setter
 @Getter
 @ToString
-public class AddMenuCommand {
+public class CreateMenuCommand {
   /**
    * 客户端Id.
    */
@@ -40,9 +41,9 @@ public class AddMenuCommand {
   /**
    * 父菜单id.
    * <p>
-   * {@code null}表示顶级菜单.
+   * ```null```表示顶级菜单.
    */
-  private Integer parent;
+  private Integer parentId;
 
   /**
    * 菜单名称.
@@ -54,5 +55,5 @@ public class AddMenuCommand {
    * 该菜单对应的配置内容.
    * 如果为空则表示此菜单为菜单组.
    */
-  private AddConfDataCommand confData;
+  private CreateConfDataCommand confData;
 }

@@ -1,12 +1,15 @@
 package cn.laeni.sconf.server.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
- * 应用配置界面的菜单列表.
+ * 应用菜单.此菜单为树形结构,可能是一个配置,或者是某些配置或某些分组的父组.
  *
  * @author Laeni
  */
@@ -20,7 +23,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tbl_client_menu")
 @EntityListeners(AuditingEntityListener.class)
-public class MenuEntity {
+public class ClientMenuEntity {
   /**
    * 自增Id.
    */
@@ -29,10 +32,12 @@ public class MenuEntity {
   private Integer id;
 
   /**
-   * 菜单优先级.
+   * 父菜单id.
+   * <p>
+   * ```null```表示顶级菜单.
    */
-  @Column(name = "p_priority")
-  private Integer priority;
+  @Column(name = "parent_id")
+  private Integer parentId;
 
   /**
    * 菜单名称.
@@ -41,12 +46,10 @@ public class MenuEntity {
   private String title;
 
   /**
-   * 父菜单id.
-   * <p>
-   * ```null```表示顶级菜单.
+   * 菜单优先级.
    */
-  @Column(name = "p_data")
-  private Integer parentId;
+  @Column(name = "p_priority")
+  private Integer priority;
 
   /**
    * 该菜单对应的配置内容.
@@ -60,4 +63,18 @@ public class MenuEntity {
    */
   @ManyToOne
   private ClientEntity client;
+
+  /**
+   * 创建时间
+   */
+  @Column(name = "create_time")
+  @CreatedDate
+  private LocalDateTime createTime;
+
+  /**
+   * 更新时间
+   */
+  @Column(name = "update_time")
+  @LastModifiedDate
+  private LocalDateTime updateTime;
 }

@@ -16,20 +16,26 @@
 package cn.laeni.sconf.server.controller.vo;
 
 import cn.laeni.sconf.server.entity.ClientEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 /**
+ * 客户端基本信息.
+ * 不包含该客户端下的菜单和配置数据.
+ *
  * @author Laeni
  * @see ClientEntity
  */
 @Data
 @Builder
-public class ClientEntityBaseInfoVO {
+public class ClientBaseVO {
   /**
    * 自增Id.
    */
@@ -45,18 +51,31 @@ public class ClientEntityBaseInfoVO {
    */
   private String desc;
 
+  /**
+   * 创建时间
+   */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private LocalDateTime createTime;
+
+  /**
+   * 更新时间
+   */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private LocalDateTime updateTime;
+
   @Nullable
-  public static ClientEntityBaseInfoVO toVo(@Nullable ClientEntity entity) {
+  public static ClientBaseVO toVo(@Nullable ClientEntity entity) {
     if (entity == null) {
       return null;
     }
-    return ClientEntityBaseInfoVO.builder()
+    return ClientBaseVO.builder()
         .id(entity.getId()).name(entity.getName()).desc(entity.getDesc())
+        .createTime(entity.getCreateTime()).updateTime(entity.getUpdateTime())
         .build();
   }
 
-  @Nullable
-  public static Collection<ClientEntityBaseInfoVO> toVo(Collection<ClientEntity> entities) {
-    return entities.stream().map(ClientEntityBaseInfoVO::toVo).collect(Collectors.toList());
+  @NotNull
+  public static Collection<ClientBaseVO> toVo(@NotNull Collection<ClientEntity> entities) {
+    return entities.stream().map(ClientBaseVO::toVo).collect(Collectors.toList());
   }
 }

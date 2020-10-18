@@ -15,10 +15,11 @@
  */
 package cn.laeni.sconf.server.service;
 
-import cn.laeni.sconf.server.controller.command.AddMenuCommand;
 import cn.laeni.sconf.server.controller.command.CreateClientCommand;
+import cn.laeni.sconf.server.controller.command.CreateMenuCommand;
 import cn.laeni.sconf.server.entity.ClientEntity;
-import cn.laeni.sconf.server.entity.MenuEntity;
+import cn.laeni.sconf.server.entity.ClientMenuEntity;
+import cn.laeni.sconf.server.entity.ConfDataEntity;
 
 import java.util.Collection;
 
@@ -36,6 +37,24 @@ public interface ClientManageService {
   Collection<ClientEntity> getAllClient();
 
   /**
+   * 获取id对应的客户端.
+   *
+   * @param clientId 客户端Id
+   * @return id对应的客户端
+   */
+  ClientEntity getClient(Integer clientId);
+
+  /**
+   * 获根据id获取详细的配置.
+   *
+   * @param confDataId 配置Id
+   * @return id对应的配置数据详情.
+   */
+  ConfDataEntity getConfData(Integer confDataId);
+  // --------------------------------------
+
+  /**
+   * 创建一个新客户端应用.
    * @param newClient 新创建客户端时初始化数据
    * @return 新创建的客户端信息
    */
@@ -48,21 +67,18 @@ public interface ClientManageService {
    */
   void deleteClient(Integer id);
 
-  // --------------------------------------
-
-  /**
-   * 获取客户端的所有配置列表(不包含具体的配置内容,由于陪孩子内容过大,需要单独获取).
-   */
-  Collection<MenuEntity> getClientConfList(Integer id);
-
   /**
    * 添加配置或配置分组(菜单).
+   * @param createMenuCommand 新菜单信息
+   * @return 已经创建的菜单对象
    */
-  MenuEntity addMenu(AddMenuCommand addMenuCommand);
+  ClientMenuEntity createMenu(CreateMenuCommand createMenuCommand);
 
   /**
    * 删除配置或分组.
    * 如果是分组,并且子
+   * @param clientId 菜单所属的客户端Id
+   * @param menuId 需要删除的客户端Id
    */
   void removeMenu(Integer clientId, Integer menuId);
 }

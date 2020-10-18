@@ -16,10 +16,12 @@
 package cn.laeni.sconf.server.controller;
 
 import cn.laeni.sconf.core.Result;
-import cn.laeni.sconf.server.controller.command.AddMenuCommand;
 import cn.laeni.sconf.server.controller.command.CreateClientCommand;
-import cn.laeni.sconf.server.controller.vo.ClientEntityBaseInfoVO;
-import cn.laeni.sconf.server.controller.vo.MenuVO;
+import cn.laeni.sconf.server.controller.command.CreateMenuCommand;
+import cn.laeni.sconf.server.controller.vo.ClientBaseVO;
+import cn.laeni.sconf.server.controller.vo.ClientInfoVO;
+import cn.laeni.sconf.server.controller.vo.ClientMenuVO;
+import cn.laeni.sconf.server.controller.vo.ConfDataVO;
 import cn.laeni.sconf.server.service.ClientManageService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +47,19 @@ public class WebManageController {
    *
    * @return 所有应用的基本信息.
    */
-  @GetMapping("/client")
-  public Result<Collection<ClientEntityBaseInfoVO>> allClientBaseInfo() {
-    return new Result<>(ClientEntityBaseInfoVO.toVo(clientManageService.getAllClient()));
+  @GetMapping("/client/all_base")
+  public Result<Collection<ClientBaseVO>> getAllClientBase() {
+    return new Result<>(ClientBaseVO.toVo(clientManageService.getAllClient()));
+  }
+
+  /**
+   * 获取某个应用的详细信息(包含配置列表和菜单列表).
+   *
+   * @param id 客户端Id
+   */
+  @GetMapping("/client/info")
+  public Result<ClientInfoVO> getClientInfo(Integer id) {
+    return new Result<>(ClientInfoVO.toVo(clientManageService.getClient(id)));
   }
 
   /**
@@ -56,8 +68,8 @@ public class WebManageController {
    * @return 返回新创建后的客户端实例的基本信息
    */
   @PutMapping("/client")
-  public Result<ClientEntityBaseInfoVO> createClient(@RequestBody @Validated CreateClientCommand command) {
-    return new Result<>(ClientEntityBaseInfoVO.toVo(clientManageService.createClient(command)));
+  public Result<ClientBaseVO> createClient(@RequestBody @Validated CreateClientCommand command) {
+    return new Result<>(ClientBaseVO.toVo(clientManageService.createClient(command)));
   }
 
   /**
@@ -71,23 +83,13 @@ public class WebManageController {
   // 修改应用
 
   /**
-   * 获取某个应用的配置分组(菜单)列表(仅列表的基本信息,不包好配置本身).
+   * 创建客户端菜单(菜单可能是一个菜单组,也可能是一个拥有配置数据的菜单项).
    *
-   * @param id 客户端Id
+   * @param command 待添加的配置或配置分组
    */
-  @GetMapping("/client/conf_list")
-  public Result<Collection<MenuVO>> clientConfList(Integer id) {
-    return new Result<>(MenuVO.toVo(clientManageService.getClientConfList(id)));
-  }
-
-  /**
-   * 创建某个应用的配置或配置分组(菜单).
-   *
-   * @param addMenuCommand 待添加的配置或配置分组
-   */
-  @PutMapping("/client/conf")
-  public Result<MenuVO> addMenu(@RequestBody @Validated AddMenuCommand addMenuCommand) {
-    return new Result<>(MenuVO.toVo(clientManageService.addMenu(addMenuCommand)));
+  @PutMapping("/client/menu")
+  public Result<ClientMenuVO> createMenu(@RequestBody @Validated CreateMenuCommand command) {
+    return new Result<>(ClientMenuVO.toVo(clientManageService.createMenu(command)));
   }
 
   /**
@@ -98,10 +100,19 @@ public class WebManageController {
    * @param menuId   待删除的配置或分组Id
    * @return 返回被修改的配置或分组
    */
-  @DeleteMapping("/client/conf")
+  @DeleteMapping("/client/menu")
   public Result<Void> removeMenu(Integer clientId, Integer menuId) {
     clientManageService.removeMenu(clientId, menuId);
     return new Result<>();
+  }
+
+  /**
+   * 获根据id获取详细的配置.
+   * @param confDataId 配置Id
+   */
+  @GetMapping("/client/conf_data")
+  public Result<ConfDataVO> getConfData(Integer confDataId) {
+    return new Result<>(ConfDataVO.toVo(clientManageService.getConfData(confDataId)));
   }
 
   // 修改应用配置(传入需修改的字段进行按需修改)
