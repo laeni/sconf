@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tbl_conf_data")
 @EntityListeners(AuditingEntityListener.class)
-public class ConfDataEntity {
+public class ConfEntity {
   /**
    * 自增Id.
    */
@@ -33,15 +33,21 @@ public class ConfDataEntity {
   private Integer id;
 
   /**
-   * 具体的配置内容声明.
-   * 由于内容可能过大并且类型众多,所以这里不会直接存储具体的配置内容,
-   * 而只是存储配置数据的存储信息,且需要单独获取.并且可能不同的类型的数据获取方式不一样.
+   * 具体配置内容数据Id.
+   * 可以为空(刚创建时).
    */
-  @Column(name = "p_data")
-  private String data;
+  @Column(name = "data_id")
+  private String contextId;
+
+  /**
+   * 示例配置数据Id.
+   */
+  @Column(name = "example_id")
+  private String exampleId;
 
   /**
    * 是否启用.
+   * {@link #contextId}不为空时才可以启用.
    */
   @Column(name = "p_enable")
   private Boolean enable;

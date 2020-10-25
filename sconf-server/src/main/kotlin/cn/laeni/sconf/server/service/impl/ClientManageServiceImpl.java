@@ -18,11 +18,11 @@ package cn.laeni.sconf.server.service.impl;
 import cn.laeni.personal.exception.ClientException;
 import cn.laeni.sconf.exception.ClientErrorCode;
 import cn.laeni.sconf.server.controller.command.CreateClientCommand;
-import cn.laeni.sconf.server.controller.command.CreateConfDataCommand;
+import cn.laeni.sconf.server.controller.command.CreateConfCommand;
 import cn.laeni.sconf.server.controller.command.CreateMenuCommand;
 import cn.laeni.sconf.server.entity.ClientEntity;
 import cn.laeni.sconf.server.entity.ClientMenuEntity;
-import cn.laeni.sconf.server.entity.ConfDataEntity;
+import cn.laeni.sconf.server.entity.ConfEntity;
 import cn.laeni.sconf.server.repository.ClientEntityRepository;
 import cn.laeni.sconf.server.repository.ConfDataEntityRepository;
 import cn.laeni.sconf.server.repository.MenuEntityRepository;
@@ -80,14 +80,14 @@ public class ClientManageServiceImpl implements ClientManageService {
     final ClientEntity client = clientEntityRepository.findById(clientId).orElseThrow(() -> new ClientException(ClientErrorCode.CLIENT_NOT_FOND));
     // 触发懒加载查询数据
     client.getMenus();
-    client.getConfDatas();
+    client.getConfs();
     return client;
   }
 
   @Override
   @Transactional(rollbackOn = Exception.class)
-  public ConfDataEntity getConfData(Integer confDataId) {
-    return confDataEntityRepository.findById(confDataId).orElseThrow(() -> new ClientException(ClientErrorCode.CLIENT_NOT_FOND));
+  public ConfEntity getConf(Integer confId) {
+    return confDataEntityRepository.findById(confId).orElseThrow(() -> new ClientException(ClientErrorCode.CLIENT_NOT_FOND));
   }
 
   @Override
@@ -96,10 +96,12 @@ public class ClientManageServiceImpl implements ClientManageService {
     ClientEntity clientEntity = clientEntityRepository.findById(createMenuCommand.getClientId()).orElseThrow(() -> new ClientException(ClientErrorCode.CLIENT_NOT_FOND));
 
     // 可能有配置数据
-    final CreateConfDataCommand conf = createMenuCommand.getConfData();
-    final ConfDataEntity confData = conf == null ? null : ConfDataEntity.builder().data("")
+    final CreateConfCommand conf = createMenuCommand.getConf();
+    final ConfEntity confData = conf == null ? null : ConfEntity.builder()
         .enable(Optional.ofNullable(conf.getEnable()).orElse(false))
-        .type(conf.getType()).client(clientEntity).build();
+        .type(conf.getType())
+        .client(clientEntity)
+        .build();
     // 创建菜单
     final ClientMenuEntity menu = ClientMenuEntity.builder()
         .parentId(createMenuCommand.getParentId()).title(createMenuCommand.getTitle())

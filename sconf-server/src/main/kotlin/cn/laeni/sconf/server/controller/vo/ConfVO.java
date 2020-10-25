@@ -1,6 +1,6 @@
 package cn.laeni.sconf.server.controller.vo;
 
-import cn.laeni.sconf.server.entity.ConfDataEntity;
+import cn.laeni.sconf.server.entity.ConfEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
@@ -19,17 +19,22 @@ import java.util.stream.Collectors;
  */
 @Data
 @Builder
-public class ConfDataVO {
+public class ConfVO {
   /**
    * 自增Id.
    */
   private Integer id;
 
   /**
-   * 具体的配置内容声明.
-   * 由于内容可能过大,所有可能不适合直接保存到关系数据库中
+   * 具体配置内容数据Id.
+   * 可以为空(刚创建时).
    */
-  private String data;
+  private String contextId;
+
+  /**
+   * 示例配置数据Id.
+   */
+  private String exampleId;
 
   /**
    * 是否启用.
@@ -39,7 +44,7 @@ public class ConfDataVO {
   /**
    * 配置类型(properties | yml | 配置项).
    */
-  private ConfDataEntity.Type type;
+  private ConfEntity.Type type;
   // 示例(纯文本配置时提供响应的示例很重要)
 
   /**
@@ -60,13 +65,14 @@ public class ConfDataVO {
   private Integer clientId;
 
   @Nullable
-  public static ConfDataVO toVo(ConfDataEntity entity) {
+  public static ConfVO toVo(ConfEntity entity) {
     if (entity == null) {
       return null;
     }
-    return ConfDataVO.builder()
+    return ConfVO.builder()
         .id(entity.getId())
-        .data(entity.getData())
+        .contextId(entity.getContextId())
+        .exampleId(entity.getExampleId())
         .enable(entity.getEnable())
         .type(entity.getType())
         .clientId(entity.getClient().getId())
@@ -74,7 +80,7 @@ public class ConfDataVO {
         .build();
   }
 
-  public static Collection<ConfDataVO> toVo(Collection<ConfDataEntity> entities) {
-    return entities.stream().map(ConfDataVO::toVo).collect(Collectors.toList());
+  public static Collection<ConfVO> toVo(Collection<ConfEntity> entities) {
+    return entities.stream().map(ConfVO::toVo).collect(Collectors.toList());
   }
 }

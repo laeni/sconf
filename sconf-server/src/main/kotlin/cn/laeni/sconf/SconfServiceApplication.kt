@@ -25,5 +25,5 @@ import org.springframework.boot.runApplication
 class SconfServiceApplication
 
 fun main(args: Array<String>) {
-	runApplication<SconfServiceApplication>(*args)
+  runApplication<SconfServiceApplication>(*args)
 }

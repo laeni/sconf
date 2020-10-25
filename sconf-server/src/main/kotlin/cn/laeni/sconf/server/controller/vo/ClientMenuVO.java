@@ -44,7 +44,7 @@ public class ClientMenuVO {
   /**
    * 该菜单对应的配置内容Id.
    */
-  private Integer confDataId;
+  private Integer confId;
 
   /**
    * 该配置所属的客户端Id.
@@ -70,8 +70,8 @@ public class ClientMenuVO {
     }
     return ClientMenuVO.builder()
         .id(entity.getId()).title(entity.getTitle()).parentId(entity.getParentId()).priority(entity.getPriority())
-        // 当菜单为菜单组时不存在confDataId
-        .confDataId(entity.getConfData() != null ? entity.getConfData().getId() : null)
+        // 当菜单为菜单组时不存在confId
+        .confId(entity.getConfData() != null ? entity.getConfData().getId() : null)
         .clientId(entity.getClient().getId())
         .createTime(entity.getCreateTime()).updateTime(entity.getUpdateTime())
         .build();

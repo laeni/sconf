@@ -15,12 +15,11 @@
  */
 package cn.laeni.sconf.server.controller.command;
 
-import cn.laeni.sconf.server.entity.ConfDataEntity;
+import cn.laeni.sconf.server.entity.ConfEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -32,7 +31,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Getter
 @ToString
-public class CreateConfDataCommand {
+public class CreateConfCommand {
   /**
    * 客户端Id.
    */
@@ -55,11 +54,10 @@ public class CreateConfDataCommand {
   /**
    * 是否启用.
    */
-  @Column(name = "p_enable")
   private Boolean enable;
 
   /**
    * 配置类型(properties | yml | 配置项).
    */
-  private ConfDataEntity.Type type;
+  private ConfEntity.Type type;
 }

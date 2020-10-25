@@ -25,22 +25,22 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SystemErrorCode implements SystemErrorCodeMark {
-    /**
-     * 访问的API不存在.
-     */
-    API_NOT_FOND("ApiNotFond", "访问的API不存在"),
-    /**
-     * HTTP方法不支持.
-     */
-    HTTP_NOT_SUPPORTED("HttpNotSupported", "HTTP方法不支持"),
-    ;
+  /**
+   * 访问的API不存在.
+   */
+  API_NOT_FOND("ApiNotFond", "访问的API不存在"),
+  /**
+   * HTTP方法不支持.
+   */
+  HTTP_NOT_SUPPORTED("HttpNotSupported", "HTTP方法不支持"),
+  ;
 
-    /**
-     * 错误码.
-     */
-    private final String errorCode;
-    /**
-     * 错误码对应的外部描述信息,该信息是通过错误码自动获取,并且直接返回给调用方.
-     */
-    private final String errorDesc;
+  /**
+   * 错误码.
+   */
+  private final String errorCode;
+  /**
+   * 错误码对应的外部描述信息,该信息是通过错误码自动获取,并且直接返回给调用方.
+   */
+  private final String errorDesc;
 }

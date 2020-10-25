@@ -55,5 +55,5 @@ public class CreateMenuCommand {
    * 该菜单对应的配置内容.
    * 如果为空则表示此菜单为菜单组.
    */
-  private CreateConfDataCommand confData;
+  private CreateConfCommand conf;
 }

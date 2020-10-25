@@ -1,0 +1,25 @@
+{
+  id: number,
+  type: 'YAML | PORO | ENUM | FILE',
+  // 冗余,用于标识
+  value: {
+    // YAML | PORO
+    context: '文本配置内容',
+    example: '文本对照内容'
+    // 生成编辑器提示
+  },
+  value: [
+    // ENUM, UI结构尽量统一,如果存在部分展示不了的则将细节进行折叠
+    {
+      type: 'INPUT_TEXT | TEXTAREA | INPUT_NUMBER | SWITCH | RADIO | CHECKBOX'
+      name: '名称',
+      key: '引用键',
+      desc: '详细描述'
+    }
+  ],
+  value: {
+    name: '名称',
+    path: '写入位置'
+  }
+  // FILE, 类型暂不考虑
+}

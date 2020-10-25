@@ -57,7 +57,7 @@ public class ClientInfoVO {
    * 本客户端应用所有配置.
    */
   @JsonIgnoreProperties(value = {"client"})
-  private Collection<ConfDataVO> confDatas;
+  private Collection<ConfVO> confs;
 
   @Nullable
   public static ClientInfoVO toVo(@Nullable ClientEntity entity) {
@@ -65,17 +65,21 @@ public class ClientInfoVO {
       return null;
     }
     return ClientInfoVO.builder()
-        .id(entity.getId()).name(entity.getName()).desc(entity.getDesc())
-        .menus(ClientMenuVO.toVo(entity.getMenus())).confDatas(ConfDataVO.toVo(entity.getConfDatas()))
-        .createTime(entity.getCreateTime()).updateTime(entity.getUpdateTime())
+        .id(entity.getId())
+        .name(entity.getName())
+        .desc(entity.getDesc())
+        .menus(ClientMenuVO.toVo(entity.getMenus()))
+        .confs(ConfVO.toVo(entity.getConfs()))
+        .createTime(entity.getCreateTime())
+        .updateTime(entity.getUpdateTime())
         .build();
   }
 
   /**
    * @param entities 客户端列表
    * @return 客户端列表Vo形式
-   * @deprecated 由于包含详细信息,所以不建议批量获取
    * @see ClientBaseVO
+   * @deprecated 由于包含详细信息, 所以不建议批量获取
    */
   @NotNull
   @Deprecated

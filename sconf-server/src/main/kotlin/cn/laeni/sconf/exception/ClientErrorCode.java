@@ -25,23 +25,23 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ClientErrorCode implements ClientErrorCodeMark {
-    /**
-     * 参数错误.
-     */
-    PARAM_ERROR("ParamError", "参数错误"),
+  /**
+   * 参数错误.
+   */
+  PARAM_ERROR("ParamError", "参数错误"),
 
-    /**
-     * 客户端应用不存在.
-     */
-    CLIENT_NOT_FOND("ClientNotFond", "客户端应用不存在"),
-    ;
+  /**
+   * 客户端应用不存在.
+   */
+  CLIENT_NOT_FOND("ClientNotFond", "客户端应用不存在"),
+  ;
 
-    /**
-     * 错误码.
-     */
-    private final String errorCode;
-    /**
-     * 错误码对应的外部描述信息,该信息是通过错误码自动获取,并且直接返回给调用方.
-     */
-    private final String errorDesc;
+  /**
+   * 错误码.
+   */
+  private final String errorCode;
+  /**
+   * 错误码对应的外部描述信息,该信息是通过错误码自动获取,并且直接返回给调用方.
+   */
+  private final String errorDesc;
 }

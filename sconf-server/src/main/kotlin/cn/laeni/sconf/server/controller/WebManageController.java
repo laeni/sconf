@@ -18,10 +18,11 @@ package cn.laeni.sconf.server.controller;
 import cn.laeni.sconf.core.Result;
 import cn.laeni.sconf.server.controller.command.CreateClientCommand;
 import cn.laeni.sconf.server.controller.command.CreateMenuCommand;
+import cn.laeni.sconf.server.controller.command.PatchConfCommand;
 import cn.laeni.sconf.server.controller.vo.ClientBaseVO;
 import cn.laeni.sconf.server.controller.vo.ClientInfoVO;
 import cn.laeni.sconf.server.controller.vo.ClientMenuVO;
-import cn.laeni.sconf.server.controller.vo.ConfDataVO;
+import cn.laeni.sconf.server.controller.vo.ConfVO;
 import cn.laeni.sconf.server.service.ClientManageService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -87,7 +88,7 @@ public class WebManageController {
    *
    * @param command 待添加的配置或配置分组
    */
-  @PutMapping("/client/menu")
+  @PostMapping("/client/menu")
   public Result<ClientMenuVO> createMenu(@RequestBody @Validated CreateMenuCommand command) {
     return new Result<>(ClientMenuVO.toVo(clientManageService.createMenu(command)));
   }
@@ -108,14 +109,22 @@ public class WebManageController {
 
   /**
    * 获根据id获取详细的配置.
-   * @param confDataId 配置Id
+   *
+   * @param confId 配置Id
    */
   @GetMapping("/client/conf_data")
-  public Result<ConfDataVO> getConfData(Integer confDataId) {
-    return new Result<>(ConfDataVO.toVo(clientManageService.getConfData(confDataId)));
+  public Result<ConfVO> getConfData(Integer confId) {
+    return new Result<>(ConfVO.toVo(clientManageService.getConf(confId)));
   }
 
-  // 修改应用配置(传入需修改的字段进行按需修改)
+  /**
+   * 修改应用配置(传入需修改的字段进行按需修改).
+   */
+  @PatchMapping("/client/conf_data")
+  public Result<ConfVO> patchConfData(PatchConfCommand command) {
+    return null;
+  }
+
   // 删除应用的配置
   // 获取某个配置的具体内容(配置本身)
 }

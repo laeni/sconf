@@ -56,7 +56,7 @@ public class ClientMenuEntity {
    * 如果为空则表示此菜单为菜单组.
    */
   @OneToOne
-  private ConfDataEntity confData;
+  private ConfEntity confData;
 
   /**
    * 该配置所属的客户端.

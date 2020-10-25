@@ -15,11 +15,11 @@
  */
 package cn.laeni.sconf.server.repository
 
-import cn.laeni.sconf.server.entity.ConfDataEntity
+import cn.laeni.sconf.server.entity.ConfEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 
 /**
  * @author Laeni
  */
-interface ConfDataEntityRepository : JpaSpecificationExecutor<ConfDataEntity>, JpaRepository<ConfDataEntity, Int>
+interface ConfDataEntityRepository : JpaSpecificationExecutor<ConfEntity>, JpaRepository<ConfEntity, Int>

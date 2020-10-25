@@ -86,7 +86,7 @@ class DbStorage : Storage {
     }
 
     return confValueRepository!!.findAll()
-        .stream().filter {t -> t?.labels!!.contains(v) }
+        .stream().filter { t -> t?.labels!!.contains(v) }
         .map { it!!.id.toString() }.toList()
   }
 }

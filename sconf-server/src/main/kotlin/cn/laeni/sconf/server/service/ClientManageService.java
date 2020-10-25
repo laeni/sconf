@@ -19,7 +19,7 @@ import cn.laeni.sconf.server.controller.command.CreateClientCommand;
 import cn.laeni.sconf.server.controller.command.CreateMenuCommand;
 import cn.laeni.sconf.server.entity.ClientEntity;
 import cn.laeni.sconf.server.entity.ClientMenuEntity;
-import cn.laeni.sconf.server.entity.ConfDataEntity;
+import cn.laeni.sconf.server.entity.ConfEntity;
 
 import java.util.Collection;
 
@@ -47,14 +47,15 @@ public interface ClientManageService {
   /**
    * 获根据id获取详细的配置.
    *
-   * @param confDataId 配置Id
+   * @param confId 配置Id
    * @return id对应的配置数据详情.
    */
-  ConfDataEntity getConfData(Integer confDataId);
+  ConfEntity getConf(Integer confId);
   // --------------------------------------
 
   /**
    * 创建一个新客户端应用.
+   *
    * @param newClient 新创建客户端时初始化数据
    * @return 新创建的客户端信息
    */
@@ -69,6 +70,7 @@ public interface ClientManageService {
 
   /**
    * 添加配置或配置分组(菜单).
+   *
    * @param createMenuCommand 新菜单信息
    * @return 已经创建的菜单对象
    */
@@ -77,8 +79,9 @@ public interface ClientManageService {
   /**
    * 删除配置或分组.
    * 如果是分组,并且子
+   *
    * @param clientId 菜单所属的客户端Id
-   * @param menuId 需要删除的客户端Id
+   * @param menuId   需要删除的客户端Id
    */
   void removeMenu(Integer clientId, Integer menuId);
 }

@@ -87,5 +87,5 @@ public class ClientEntity {
    */
   @JsonIgnoreProperties(value = {"client"})
   @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-  private List<ConfDataEntity> confDatas;
+  private List<ConfEntity> confs;
 }
