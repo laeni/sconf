@@ -21,6 +21,7 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -78,8 +79,7 @@ public class ConfValueEntity {
       if (col == null) {
         return null;
       }
-      return JacksonUtils.stringToObject(col, new TypeReference<>() {
-      });
+      return JacksonUtils.stringToObject(col, new TypeReference<HashSet<String>>() {});
     }
   }
 }
