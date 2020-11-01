@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.controller;
+package cn.laeni.sconf.server.web;
 
 import cn.laeni.sconf.core.Result;
 import cn.laeni.sconf.core.Storage;
-import cn.laeni.sconf.server.controller.command.CreateClientCommand;
-import cn.laeni.sconf.server.controller.command.CreateMenuCommand;
-import cn.laeni.sconf.server.controller.command.PatchConfCommand;
-import cn.laeni.sconf.server.controller.vo.ClientBaseVO;
-import cn.laeni.sconf.server.controller.vo.ClientInfoVO;
-import cn.laeni.sconf.server.controller.vo.ClientMenuVO;
-import cn.laeni.sconf.server.controller.vo.ConfVO;
+import cn.laeni.sconf.server.web.command.CreateClientCommand;
+import cn.laeni.sconf.server.web.command.CreateMenuCommand;
+import cn.laeni.sconf.server.web.command.PatchConfCommand;
+import cn.laeni.sconf.server.web.vo.ClientBaseVO;
+import cn.laeni.sconf.server.web.vo.ClientInfoVO;
+import cn.laeni.sconf.server.web.vo.ClientMenuVO;
+import cn.laeni.sconf.server.web.vo.ConfVO;
 import cn.laeni.sconf.server.service.ClientManageService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

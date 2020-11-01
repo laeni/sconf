@@ -1,4 +1,4 @@
-package cn.laeni.sconf.server.controller.command;
+package cn.laeni.sconf.server.web.command;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -13,12 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.controller;
+package cn.laeni.sconf.server.web;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 客户端接入Controller.
  *
  * @author Laeni
  */
+@RestController
+@RequestMapping("/api/client")
 public class ClientController {
 }

@@ -1,6 +1,7 @@
 package cn.laeni.sconf.core;
 
 import cn.laeni.personal.exception.ErrorInfo;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.slf4j.MDC;
 
@@ -9,6 +10,7 @@ import org.slf4j.MDC;
  *
  * @author laeni
  */
+@Getter
 @NoArgsConstructor
 public class Result<T> {
   /**

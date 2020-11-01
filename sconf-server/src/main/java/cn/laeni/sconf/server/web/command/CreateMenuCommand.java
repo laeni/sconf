@@ -13,32 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.controller.command;
+package cn.laeni.sconf.server.web.command;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
- * 创建客户端的必须数据.
+ * 添加客户端的菜单(配置分组).
+ * 可以在创建菜单的同时创建配置.
  *
  * @author Laeni
  */
 @Setter
 @Getter
 @ToString
-public class CreateClientCommand {
+public class CreateMenuCommand {
   /**
-   * 客户端名称.
+   * 客户端Id.
    */
-  @NotBlank(message = "客户端名称不能为空")
-  private String name;
+  @NotNull(message = "客户端Id不能为空")
+  private Integer clientId;
 
   /**
-   * 客户端描述说明.
+   * 父菜单id.
+   * <p>
+   * ```null```表示顶级菜单.
    */
-  @NotBlank(message = "客户端描述说明不能为空")
-  private String desc;
+  private Integer parentId;
+
+  /**
+   * 菜单名称.
+   */
+  @NotBlank(message = "菜单名称不能为空")
+  private String title;
+
+  /**
+   * 该菜单对应的配置内容.
+   * 如果为空则表示此菜单为菜单组.
+   */
+  private CreateConfCommand conf;
 }
