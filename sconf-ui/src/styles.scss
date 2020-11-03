@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+
+/// region bootstrap(仅仅使用Bootstrap的布局功能,组件使用ant的组件)
+// scss-docs-start import-stack
+// Configuration
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+// Layout
+@import "~bootstrap/scss/grid";
+/// endregion

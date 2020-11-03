@@ -1,0 +1,35 @@
+// 宫格中的每一行(由于使用原生的箱式布局无法正常使用拖拽,所有这里每x个箱子为一行)
+.app-list {
+  background: white;
+  overflow: hidden;
+  height: 8em;
+}
+// 一行中的其中一个箱子(由于在移动过程中,该节点与.app-list并非父子关系,所有不能采用父子关系结构定义)
+.app-box {
+  padding: 0 0.5em;
+  box-sizing: border-box;
+  border-radius: 2px;
+  background: white;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,.1);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  height: 6em;
+  overflow: hidden;
+}
+
+// 正在移动中的元素(此时该元素会被移出原来的位置,并临时插入到根doc下)
+.cdk-drag-preview {
+}
+// 正在被移入但尚未生效的元素(正在被移动元素的复制)
+.cdk-drag-placeholder {
+  // 透明度为0
+  opacity: 0;
+  // 这里是将自生高度升高,否则会在该位置出现另一个元素
+  margin: 1em 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

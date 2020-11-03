@@ -1,0 +1,107 @@
+<div class="row no-gutters justify-content-center">
+  <div class="col-lg-8 col-md-10">
+    <!--title-->
+    <div style="color: #ED6D05;text-align: center;padding: 3em 0 1.5em 0;font-size: 2em;">
+      Spring 分布式应用配置中心
+    </div>
+    <!--应用列表-->
+    <nz-tabset nzSize="small" nzCentered [nzTabBarStyle]="{margin: '1em 3em'}">
+      <nz-tab nzTitle="最常访问">
+        <div cdkDropListGroup style="padding: 0 2em;">
+          <!--每一行最多放置三个元素-->
+          <div cdkDropList *ngFor="let group of clientGroup" class="row no-gutters app-list"
+               [cdkDropListData]="group" (cdkDropListDropped)="drop($event)" cdkDropListOrientation="horizontal">
+            <div class="col-4" style="padding: 0.8em" *ngFor="let client of group">
+              <div cdkDrag class="app-box" style="cursor: pointer;"
+                   [routerLink]="['client', {id: client.id}]"
+              >
+                <div class="row no-gutters">
+                  <!--应用名-->
+                  <div class="col-12" cdkDragHandle (click)="$event.stopPropagation()" style="cursor: move;">
+                    <div>{{ client.name }}</div>
+                  </div>
+                  <div class="col-12">{{ client.desc }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="全部应用">
+        <!--添加按钮和过滤框-->
+        <div nz-row nzGutter="10" class="pb-2 pl-2">
+          <div nz-col>
+            <button nz-button (click)="openAddClientModal()">添加</button>
+          </div>
+          <label class="col-auto" style="padding: 0">
+            <nz-input-group [nzPrefix]="prefixTemplateUser" [nzSuffix]="inputClearTpl">
+              <input type="text" nz-input placeholder="快速查找客户端应用" #searchInput/>
+            </nz-input-group>
+            <ng-template #prefixTemplateUser>
+              <i nz-icon nzType="search"></i>
+            </ng-template>
+            <ng-template #inputClearTpl>
+              <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="searchInput.value" (click)="searchInput.value = null"></i>
+            </ng-template>
+          </label>
+        </div>
+        <!--列表-->
+        <nz-table [nzData]="clients">
+          <thead>
+          <tr>
+            <th>ClientId</th>
+            <th>名称</th>
+            <th>说明</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let client of clients">
+            <td>{{ client.id }}</td>
+            <td>{{ client.name }}</td>
+            <td>{{ client.desc }}</td>
+            <td>
+              <div nz-row nzGutter="10">
+                <div nz-col>
+                  <a>编辑</a>
+                </div>
+                <div nz-col>
+                  <a nz-popconfirm
+                     nzPopconfirmTitle="确定删除该客户端应用吗?"
+                     nzPopconfirmPlacement="bottom"
+                     (nzOnConfirm)="deleteClient(client)"
+                  >删除</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-tab>
+    </nz-tabset>
+    <!--添加应用Modal框-->
+    <nz-modal *ngIf="addClientForm" [nzVisible]="addClientModalVisible" nzTitle="添加客户端应用"
+              (nzOnCancel)="addClientModalVisible = false" [nzFooter]="null" [nzMaskClosable]="false"
+    >
+      <form nz-form [formGroup]="addClientForm" (ngSubmit)="addClientSubmit()">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="add-client-name">客户端名称</nz-form-label>
+          <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="客户端名称是必填项">
+            <input nz-input formControlName="name" id="add-client-name" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="add-client-desc">客户端描述</nz-form-label>
+          <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="客户端描述是必填项">
+            <input nz-input formControlName="desc" id="add-client-desc" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+          <nz-form-control [nzSm]="{ span: 15, push: 6 }" [nzXs]="24">
+            <button nz-button nzType="primary" [disabled]="!addClientForm.valid" [nzLoading]="addClientButtonLoading">提交</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-modal>
+  </div>
+</div>
