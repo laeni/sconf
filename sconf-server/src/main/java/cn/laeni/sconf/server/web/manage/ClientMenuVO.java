@@ -1,4 +1,4 @@
-package cn.laeni.sconf.server.web.vo;
+package cn.laeni.sconf.server.web.manage;
 
 import cn.laeni.sconf.server.entity.ClientMenuEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;

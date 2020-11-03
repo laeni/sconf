@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.web.command;
+package cn.laeni.sconf.server.web.manage;
 
 import cn.laeni.sconf.server.entity.ConfEntity;
 import lombok.Getter;

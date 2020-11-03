@@ -13,17 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.web;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+package cn.laeni.sconf.server.web.client;
 
 /**
- * 客户端接入Controller.
+ * 获取客户端信息请求参数.
  *
  * @author Laeni
  */
-@RestController
-@RequestMapping("/api/client")
-public class ClientController {
+public class InfoCommand {
+  /**
+   * 客户端Id;
+   */
+  String clientId;
+
+  /**
+   * 是否立即响应.
+   * 默认为true.
+   */
+  Boolean straightway;
 }

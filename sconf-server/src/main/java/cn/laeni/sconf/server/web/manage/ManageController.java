@@ -13,17 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server.web;
+package cn.laeni.sconf.server.web.manage;
 
 import cn.laeni.sconf.core.Result;
 import cn.laeni.sconf.core.Storage;
-import cn.laeni.sconf.server.web.command.CreateClientCommand;
-import cn.laeni.sconf.server.web.command.CreateMenuCommand;
-import cn.laeni.sconf.server.web.command.PatchConfCommand;
-import cn.laeni.sconf.server.web.vo.ClientBaseVO;
-import cn.laeni.sconf.server.web.vo.ClientInfoVO;
-import cn.laeni.sconf.server.web.vo.ClientMenuVO;
-import cn.laeni.sconf.server.web.vo.ConfVO;
 import cn.laeni.sconf.server.service.ClientManageService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +30,11 @@ import java.util.Collection;
  */
 @RestController
 @RequestMapping("/api/manage")
-public class WebManageController {
+public class ManageController {
   private final ClientManageService clientManageService;
   private final Storage storage;
 
-  public WebManageController(ClientManageService clientManageService, Storage storage) {
+  public ManageController(ClientManageService clientManageService, Storage storage) {
     this.clientManageService = clientManageService;
     this.storage = storage;
   }

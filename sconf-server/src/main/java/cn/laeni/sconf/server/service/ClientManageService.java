@@ -15,9 +15,9 @@
  */
 package cn.laeni.sconf.server.service;
 
-import cn.laeni.sconf.server.web.command.CreateClientCommand;
-import cn.laeni.sconf.server.web.command.CreateMenuCommand;
-import cn.laeni.sconf.server.web.command.PatchConfCommand;
+import cn.laeni.sconf.server.web.manage.CreateClientCommand;
+import cn.laeni.sconf.server.web.manage.CreateMenuCommand;
+import cn.laeni.sconf.server.web.manage.PatchConfCommand;
 import cn.laeni.sconf.server.entity.ClientEntity;
 import cn.laeni.sconf.server.entity.ClientMenuEntity;
 import cn.laeni.sconf.server.entity.ConfEntity;

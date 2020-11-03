@@ -43,8 +43,8 @@
       <nz-dropdown-menu #menuMenu="nzDropdownMenu">
         <ul nz-menu>
           <li nz-menu-item (click)="openCreateConModal()">创建配置</li>
-          <li nz-menu-item>删除此配置</li>
-          <li nz-menu-item>移动此配置</li>
+          <li nz-menu-item (click)="deleteConf()">删除此配置</li>
+          <li nz-menu-item nzDisabled>移动此配置</li>
           <li nz-menu-item (click)="createMenuGroupVisible = true">创建分组</li>
         </ul>
       </nz-dropdown-menu>

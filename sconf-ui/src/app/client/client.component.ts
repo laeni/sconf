@@ -148,6 +148,12 @@ export class ClientComponent implements OnInit {
 
   /// endregion
 
+  /**
+   * 删除配置.
+   */
+  async deleteConf(): Promise<void> {
+  }
+
   // 代码编辑器初始化完成事件
   editorInitialized(editorInstall: editor.IStandaloneCodeEditor): void {
     this.editorInstall = editorInstall;
