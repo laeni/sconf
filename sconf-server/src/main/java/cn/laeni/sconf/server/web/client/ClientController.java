@@ -37,9 +37,9 @@ public class ClientController {
   // 获取client配置
   @GetMapping("/info")
   public DeferredResult<Result<ClientInfo>> getClientInfo(String clientId, Boolean straightway) {
-    final DeferredResult<Result<ClientInfo>> result = new DeferredResult<>(200000L, ClientController::get1);
+    add();
+    final DeferredResult<Result<ClientInfo>> result = new DeferredResult<>(3000L, ClientController::get1);
     ClientCacheManage.subscribe(clientId, result);
-    System.out.println(++i);
     return result;
   }
 
@@ -55,5 +55,9 @@ public class ClientController {
 
   public static Result<ClientInfo> get1() {
     return new Result<>(new SystemException(SystemErrorCodeMark.Code.INTERNAL_ERROR));
+  }
+
+  private synchronized void add() {
+    System.out.println(++i);
   }
 }

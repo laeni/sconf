@@ -18,6 +18,7 @@ package cn.laeni.sconf.server.db;
 import cn.laeni.personal.util.JacksonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -48,7 +49,8 @@ public class ConfValueEntity {
   /**
    * 配置内容.
    */
-  @Column(name = "p_value", columnDefinition = "varchar(65535)", length = 65535)
+  @Type(type="text")
+  @Column(name = "p_value")
   @Basic(fetch = FetchType.LAZY)
   private String value;
 

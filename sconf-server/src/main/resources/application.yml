@@ -7,11 +7,17 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+  jetty:
+    threads:
+      max: 1000
 spring:
   profiles:
     active:
       - env
   datasource:
+    url: jdbc:mysql://rm-wz9dd69ng20c4386cxo.mysql.rds.aliyuncs.com/cloudconf?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: laeni
+    password: pianai0_0
     druid:
       #      connection-properties: config.decrypt=true;config.decrypt.key=${spring.datasource.druid.public-key}
       #      filters: config,mergeStat,wall
@@ -23,14 +29,13 @@ spring:
       min-evictable-idle-time-millis: 300000
       min-idle: 20
       pool-prepared-statements: false
-      remove-abandoned: true
+      remove-abandoned: false
       remove-abandoned-timeout: 60
       test-on-borrow: false
       test-on-return: false
       test-while-idle: true
       time-between-eviction-runs-millis: 60000
       validation-query: SELECT 'x' FROM DUAL
-    url: jdbc:h2:file:./h2
   jpa:
     hibernate:
       ddl-auto: validate
@@ -44,6 +49,7 @@ spring:
     open-in-view: true
     generate-ddl: true
     show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
   jackson:
     default-property-inclusion: non_null
     serialization:

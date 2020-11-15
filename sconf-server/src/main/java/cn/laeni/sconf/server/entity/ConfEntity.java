@@ -50,11 +50,13 @@ public class ConfEntity {
    * {@link #contextId}不为空时才可以启用.
    */
   @Column(name = "p_enable")
+  @org.hibernate.annotations.Type(type="yes_no")
   private Boolean enable;
 
   /**
    * 配置类型(properties | yml | 配置项).
    */
+  @Enumerated(EnumType.STRING)
   private Type type;
   // 示例(纯文本配置时提供响应的示例很重要)
 

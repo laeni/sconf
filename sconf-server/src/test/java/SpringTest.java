@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.laeni.sconf.server;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Laeni
  */
-@EnableJpaAuditing
-@SpringBootApplication
-public class SconfServiceApplication {
+public class SpringTest {
+  @Test
+  public void test() {
 
-  public static void main(String[] args) {
-    SpringApplication.run(SconfServiceApplication.class, args);
   }
-
 }
