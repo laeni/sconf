@@ -90,12 +90,10 @@ export class ClientComponent implements OnInit {
   }
 
   // 添加分组提交按钮处理
-  createMenuFormSubmit(menus: MenuEx[], title: string): void {
-    this.clientService.createMenuOrconf(this.client.id, { title, parentId: menus?.length > 0 ? menus[menus.length - 1].id : null })
-        .subscribe(value => {
-          this.client.addMenu(value);
-          this.createMenuGroupVisible = false;
-        });
+  async createMenuFormSubmit(menus: MenuEx[], title: string): Promise<void> {
+    // tslint:disable-next-line:max-line-length
+    this.client.addMenu(await this.clientService.createMenuOrconf(this.client.id, { title, parentId: menus?.length > 0 ? menus[menus.length - 1].id : null }));
+    this.createMenuGroupVisible = false;
   }
 
   /**
@@ -132,18 +130,17 @@ export class ClientComponent implements OnInit {
   }
 
   // 添加配置提交按钮处理
-  createConfig(): void {
+  async createConfig(): Promise<void> {
     const title = this.createConForm.controls.name.value;
     const group = this.createConForm.controls.group.value;
     const type = this.createConForm.controls.type.value;
-    this.clientService.createMenuOrconf(this.client.id,
+    const value = await this.clientService.createMenuOrconf(this.client.id,
         { title, parentId: group?.length > 0 ? group[group.length - 1].id : null },
         { type }
-    ).subscribe(value => {
-      this.client.addMenu(value);
-      // 成功后关闭表单
-      this.createConModalVisible = false;
-    });
+    );
+    this.client.addMenu(value);
+    // 成功后关闭表单
+    this.createConModalVisible = false;
   }
 
   /// endregion
@@ -190,38 +187,38 @@ export class ClientComponent implements OnInit {
   async saveEditor(conf: ConfEx): Promise<void> {
     conf.submitting = true;
 
-    const command: PatchConfCommand = { id: conf.id, enable: conf.enableEditor };
-    // 实际配置内容
-    if (conf.contextEditor !== conf.context) {
-      command.oldContextId = conf.contextId;
-      command.context = conf.contextEditor;
-    }
-    // TODO 实例配置内容
-    const newConf = await this.toConfEx(await this.clientService.patchClientConf(command));
+    try {
+      const command: PatchConfCommand = { id: conf.id, enable: conf.enableEditor };
+      // 实际配置内容
+      if (conf.contextEditor !== conf.context) {
+        command.oldContextId = conf.contextId;
+        command.context = conf.contextEditor;
+      }
+      // 实例配置内容
+      const newConf = await this.toConfEx(await this.clientService.patchClientConf(command));
 
-    // 将新增属性复制到原有属性中
-    if (newConf.contextId) {
-      conf.contextId = newConf.contextId;
-      conf.context = newConf.context;
+      // 将新增属性复制到原有属性中
+      if (newConf.contextId) {
+        conf.contextId = newConf.contextId;
+        conf.context = newConf.context;
+      }
+      conf.enable = newConf.enable;
+    } finally {
+      conf.submitting = false;
     }
-    conf.enable = newConf.enable;
-
-    conf.submitting = false;
   }
 
-  private toConfEx(conf: Conf): Promise<ConfEx> {
-    return new Promise(async resolve => {
-      const confEx = new ConfEx(conf);
-      if (conf.contextId) {
-        confEx.context = ClientComponent.parseData(await this.clientService.getData(conf.contextId), conf.type);
-        confEx.contextEditor = classToClass(confEx.context);
-      }
-      confEx.enableEditor = confEx.enable;
-      if (conf.exampleId) {
-        confEx.example = ClientComponent.parseData(await this.clientService.getData(conf.exampleId), conf.type);
-      }
-      resolve(confEx);
-    });
+  private async toConfEx(conf: Conf): Promise<ConfEx> {
+    const confEx = new ConfEx(conf);
+    if (conf.contextId) {
+      confEx.context = ClientComponent.parseData(await this.clientService.getData(conf.contextId), conf.type);
+      confEx.contextEditor = classToClass(confEx.context);
+    }
+    confEx.enableEditor = confEx.enable;
+    if (conf.exampleId) {
+      confEx.example = ClientComponent.parseData(await this.clientService.getData(conf.exampleId), conf.type);
+    }
+    return confEx;
   }
 }
 

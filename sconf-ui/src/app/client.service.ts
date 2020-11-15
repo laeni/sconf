@@ -30,39 +30,35 @@ export class ClientService {
   /**
    * 获取全部客户端基本数据.
    */
-  getAllClient(): Promise<ClientInfo[]> {
-    return new Promise<ClientInfo[]>(async (resolve) => {
-      if (this.clients) {
-        resolve(this.clients.map(client => classToClass(client)));
-      } else {
-        await this.loadAllClient();
-        resolve(this.clients.map(client => classToClass(client)));
-      }
-    });
+  async getAllClient(): Promise<ClientInfo[]> {
+    if (this.clients) {
+      return this.clients.map(client => classToClass(client));
+    } else {
+      await this.loadAllClient();
+      return this.clients.map(client => classToClass(client));
+    }
   }
 
   /**
    * 获取Id对应的客户端数据.
    * @param id 客户端id
    */
-  getClientFull(id: number): Promise<ClientInfo> {
-    return new Promise<ClientInfo>(async (resolve) => {
-      // 如果基本客户端列表不存在则优先加载客户端列表
-      if (!this.clients) {
-        await this.loadAllClient();
-      }
-      const client = this.clients.find(value => value.id === id);
+  async getClientFull(id: number): Promise<ClientInfo> {
+    // 如果基本客户端列表不存在则优先加载客户端列表
+    if (!this.clients) {
+      await this.loadAllClient();
+    }
+    const client = this.clients.find(value => value.id === id);
 
-      // 如果详细数据没有加载则加载详细数据
-      if (client && (!client.menus || !client.confs)) {
-        // tslint:disable-next-line:max-line-length
-        const clientInfo = await ResponseHandle.handle1(this.http.get<CommonResult<ClientInfo>>(`${ url.clientInfo }?id=${ client.id }`), this.message);
-        client.menus = clientInfo.menus;
-        client.confs = clientInfo.confs;
-      }
+    // 如果详细数据没有加载则加载详细数据
+    if (client && (!client.menus || !client.confs)) {
+      // tslint:disable-next-line:max-line-length
+      const clientInfo = await ResponseHandle.handle1(this.http.get<CommonResult<ClientInfo>>(`${ url.clientInfo }?id=${ client.id }`), this.message);
+      client.menus = clientInfo.menus;
+      client.confs = clientInfo.confs;
+    }
 
-      resolve(classToClass(client));
-    });
+    return classToClass(client);
   }
 
   /**
@@ -71,12 +67,10 @@ export class ClientService {
    * @param newClient 添加新客户端所必须的属性
    * @return 返回添加成功后的客户端
    */
-  addClient(newClient: NewClient): Promise<ClientInfo> {
-    return new Promise<ClientInfo>(async (resolve) => {
-      const value = await ResponseHandle.handle1(this.http.put<CommonResult<ClientInfo>>(url.client, newClient), this.message);
-      this.clients.push(value);
-      resolve(classToClass(value));
-    });
+  async addClient(newClient: NewClient): Promise<ClientInfo> {
+    const value = await ResponseHandle.handle1(this.http.put<CommonResult<ClientInfo>>(url.client, newClient), this.message);
+    this.clients.push(value);
+    return classToClass(value);
   }
 
   /**
@@ -84,13 +78,10 @@ export class ClientService {
    *
    * @param client 即将删除的客户端应用实例
    */
-  deleteClient(client: ClientInfo): Promise<void> {
-    return new Promise<void>(async (resolve) => {
-      await ResponseHandle.handle1(this.http.delete<CommonResult<void>>(url.client + ('?id=' + client.id)), this.message);
-      // 将服务器端删除的元素从本地缓存中移出
-      deleteArrayChild(this.clients, target => target.id === client.id);
-      resolve();
-    });
+  async deleteClient(client: ClientInfo): Promise<void> {
+    await ResponseHandle.handle1(this.http.delete<CommonResult<void>>(url.client + ('?id=' + client.id)), this.message);
+    // 将服务器端删除的元素从本地缓存中移出
+    deleteArrayChild(this.clients, target => target.id === client.id);
   }
 
   /**
@@ -100,51 +91,41 @@ export class ClientService {
    * @param menu     新菜单
    * @param conf 菜单关联的配置集
    */
-  // tslint:disable-next-line:max-line-length
-  createMenuOrconf(clientId: number, menu: { title: string; parentId: number; }, conf?: { type: ConfType; }): Observable<ClientMenu> {
-    return new Observable(subscriber => {
-      (async () => {
-        const body: { [key: string]: any } = { clientId, ... menu };
-        if (conf) {
-          body.conf = conf;
-        }
-        // tslint:disable-next-line:max-line-length
-        const newMenu = await ResponseHandle.handle1(this.http.post<CommonResult<ClientMenu>>(url.clientMenu, body), this.message);
-        // 缓存新数据
-        const clientInfo = this.clients.find(value => value.id === clientId);
-        if (!clientInfo.menus) {
-          clientInfo.menus = [];
-        }
-        clientInfo.menus.push(newMenu);
-        // 如果创建的是配置数据,则需要把对应的配置数据拉取回来
-        if (newMenu.confId) {
-          if (!clientInfo.confs) {
-            clientInfo.confs = [];
-          }
-          clientInfo.confs.push(await this.getClientConf(newMenu.confId));
-        }
-        subscriber.next(classToClass(newMenu));
-        subscriber.complete();
-      })();
-    });
+  async createMenuOrconf(clientId: number, menu: { title: string; parentId: number; }, conf?: { type: ConfType; }): Promise<ClientMenu> {
+    const body: { [key: string]: any } = { clientId, ... menu };
+    if (conf) {
+      body.conf = conf;
+    }
+    // tslint:disable-next-line:max-line-length
+    const newMenu = await ResponseHandle.handle1(this.http.post<CommonResult<ClientMenu>>(url.clientMenu, body), this.message);
+    // 缓存新数据
+    const clientInfo = this.clients.find(value => value.id === clientId);
+    if (!clientInfo.menus) {
+      clientInfo.menus = [];
+    }
+    clientInfo.menus.push(newMenu);
+    // 如果创建的是配置数据,则需要把对应的配置数据拉取回来
+    if (newMenu.confId) {
+      if (!clientInfo.confs) {
+        clientInfo.confs = [];
+      }
+      clientInfo.confs.push(await this.getClientConf(newMenu.confId));
+    }
+    return classToClass(newMenu);
   }
 
-  deleteMenu(clientId, menuId): Promise<void> {
-    return new Promise<void>(async (resolve) => {
-      // tslint:disable-next-line:max-line-length
-      await ResponseHandle.handle1(this.http.delete<CommonResult<void>>(`${ url.clientMenu }?clientId=${ clientId }&menuId=${ menuId }`), this.message);
+  async deleteMenu(clientId, menuId): Promise<void> {
+    // tslint:disable-next-line:max-line-length
+    await ResponseHandle.handle1(this.http.delete<CommonResult<void>>(`${ url.clientMenu }?clientId=${ clientId }&menuId=${ menuId }`), this.message);
 
-      // 删除缓存新数据
-      const clientInfo = this.clients.find(value => value.id === clientId);
-      for (let i = 0; i < clientInfo.menus.length; i++) {
-        if (clientInfo.menus[i].id === menuId) {
-          clientInfo.menus.splice(i, 1);
-          break;
-        }
+    // 删除缓存新数据
+    const clientInfo = this.clients.find(value => value.id === clientId);
+    for (let i = 0; i < clientInfo.menus.length; i++) {
+      if (clientInfo.menus[i].id === menuId) {
+        clientInfo.menus.splice(i, 1);
+        break;
       }
-
-      resolve();
-    });
+    }
   }
 
   /**
@@ -153,25 +134,21 @@ export class ClientService {
    *
    * @param id 数据Id
    */
-  getData(id: string): Promise<string> {
-    return new Promise<string>(async resolve => {
-      let data = this.datas.find(value => value.id === id);
-      if (!data) {
-        // 异步加载并缓存
-        data = { id, value: await ResponseHandle.handle1(this.http.get<CommonResult<string>>(url.data, { params: { id } }), this.message) };
-        this.datas.push(data);
-      }
-      resolve(data.value);
-    });
+  async getData(id: string): Promise<string> {
+    let data = this.datas.find(value => value.id === id);
+    if (!data) {
+      // 异步加载并缓存
+      data = { id, value: await ResponseHandle.handle1(this.http.get<CommonResult<string>>(url.data, { params: { id } }), this.message) };
+      this.datas.push(data);
+    }
+    return data.value;
   }
 
   /**
    * 局部修改配置.
    */
-  patchClientConf(command: PatchConfCommand): Promise<Conf> {
-    return new Promise<Conf>(async (resolve) => {
-      resolve(await ResponseHandle.handle1(this.http.patch<CommonResult<Conf>>(url.clientconf, command), this.message));
-    });
+  async patchClientConf(command: PatchConfCommand): Promise<Conf> {
+    return await ResponseHandle.handle1(this.http.patch<CommonResult<Conf>>(url.clientconf, command), this.message);
   }
 
   /**
@@ -180,18 +157,13 @@ export class ClientService {
    * @param confId 配置数据Id
    * @private 获取的配置数据并未写入与本地内存缓存中,如果需要公开,则需要考虑缓存的问题
    */
-  private getClientConf(confId: number): Promise<Conf> {
-    return new Promise<Conf>(async resolve => {
-      resolve(await ResponseHandle.handle1(this.http.get<CommonResult<Conf>>(`${ url.clientconf }?confId=${ confId }`), this.message));
-    });
+  private async getClientConf(confId: number): Promise<Conf> {
+    return await ResponseHandle.handle1(this.http.get<CommonResult<Conf>>(`${ url.clientconf }?confId=${ confId }`), this.message);
   }
 
   // 加载所有客户端
-  private loadAllClient(): Promise<void> {
-    return new Promise<void>(async (resolve) => {
-      this.clients = await ResponseHandle.handle1(this.http.get<CommonResult<ClientInfo[]>>(url.clientAllBase), this.message);
-      resolve();
-    });
+  private async loadAllClient(): Promise<void> {
+    this.clients = await ResponseHandle.handle1(this.http.get<CommonResult<ClientInfo[]>>(url.clientAllBase), this.message);
   }
 }
 

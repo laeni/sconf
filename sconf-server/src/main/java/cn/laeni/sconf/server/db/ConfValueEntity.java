@@ -48,7 +48,7 @@ public class ConfValueEntity {
   /**
    * 配置内容.
    */
-  @Column(name = "p_value")
+  @Column(name = "p_value", columnDefinition = "varchar(65535)", length = 65535)
   @Basic(fetch = FetchType.LAZY)
   private String value;
 
