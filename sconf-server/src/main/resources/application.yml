@@ -70,4 +70,4 @@ spring:
       enabled: always
   h2:
     console:
-      enabled: true
+      enabled: false

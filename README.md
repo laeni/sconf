@@ -1,5 +1,13 @@
-## 公共基础-常用通过代码
+<p align="center">
+   <img src="./doc/logo.svg" alt="配置管理" width="200" height="165">
+</p>
 
-基础常用体系代码。
+<h3 align="center">Sconf</h3>
 
-包含异常、工具类等多个模块，可按需引用。
+<p align="center">
+  独立的SpringBoot、SpringCloud配置中心
+</p>
+
+## Sconf
+
+Sconf可以在没有消息总线的情况下实现配置刷新，并且提供简单的可视化UI进行配置管理，主要目的是作为disconf的替代者。
