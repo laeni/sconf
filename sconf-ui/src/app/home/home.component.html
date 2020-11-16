@@ -58,7 +58,9 @@
           <tbody>
           <tr *ngFor="let client of clients">
             <td>{{ client.id }}</td>
-            <td>{{ client.name }}</td>
+            <td>
+              <nav><a [routerLink]="['client', {id: client.id}]">{{ client.name }}</a></nav>
+            </td>
             <td>{{ client.desc }}</td>
             <td>
               <div nz-row nzGutter="10">

@@ -139,6 +139,7 @@ export class ClientComponent implements OnInit {
         { type }
     );
     this.client.addMenu(value);
+    this.client.addConf(await this.clientService.getClientConfByClientIdAndConfId(this.client.id, value.confId));
     // 成功后关闭表单
     this.createConModalVisible = false;
   }
@@ -149,6 +150,7 @@ export class ClientComponent implements OnInit {
    * 删除配置.
    */
   async deleteConf(): Promise<void> {
+    alert('功能暂未实现');
   }
 
   // 代码编辑器初始化完成事件
@@ -278,6 +280,10 @@ class ClientInfoEx extends ClientInfo {
     this.menus.push(menu);
     this.menusEx = MenuEx.tos(this.menus);
     this.nzCascaderOption = ClientInfoEx.toNzCascaderOption(this.menusEx);
+  }
+
+  public addConf(conf: Conf): void {
+    this.confEx.push(new ConfEx(conf));
   }
 }
 

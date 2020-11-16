@@ -152,6 +152,25 @@ export class ClientService {
   }
 
   /**
+   * 获取客户端下指定配置.
+   * @param clientId 客户端Id
+   * @param confId   配置Id
+   */
+  async getClientConfByClientIdAndConfId(clientId: number, confId: number): Promise<Conf> {
+    const clientInfo = this.clients.find(value => value.id === clientId);
+    if (!clientInfo.confs) {
+      clientInfo.confs = [];
+    }
+
+    // 从缓存中找配置,如果不存在则从服务器获取
+    let conf = clientInfo.confs.find(v => v.id === confId);
+    if (!conf) {
+      conf = await this.getClientConf(confId);
+    }
+    return conf;
+  }
+
+  /**
    * 从服务端获取客户端配置数据.
    * 获取的配置数据并未写入与本地内存缓存中.
    * @param confId 配置数据Id
