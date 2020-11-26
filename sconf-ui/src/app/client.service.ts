@@ -53,7 +53,7 @@ export class ClientService {
     // 如果详细数据没有加载则加载详细数据
     if (client && (!client.menus || !client.confs)) {
       // tslint:disable-next-line:max-line-length
-      const clientInfo = await ResponseHandle.handle1(this.http.get<CommonResult<ClientInfo>>(`${ url.clientInfo }?id=${ client.id }`), this.message);
+      const clientInfo = await ResponseHandle.handle1(this.http.get<CommonResult<ClientInfo>>(url.clientInfo, { params: { id: String(client.id) } }), this.message);
       client.menus = clientInfo.menus;
       client.confs = clientInfo.confs;
     }
@@ -79,7 +79,7 @@ export class ClientService {
    * @param client 即将删除的客户端应用实例
    */
   async deleteClient(client: ClientInfo): Promise<void> {
-    await ResponseHandle.handle1(this.http.delete<CommonResult<void>>(url.client + ('?id=' + client.id)), this.message);
+    await ResponseHandle.handle1(this.http.delete<CommonResult<void>>(url.client, { params: { id: String(client.id) } }), this.message);
     // 将服务器端删除的元素从本地缓存中移出
     deleteArrayChild(this.clients, target => target.id === client.id);
   }
@@ -177,7 +177,8 @@ export class ClientService {
    * @private 获取的配置数据并未写入与本地内存缓存中,如果需要公开,则需要考虑缓存的问题
    */
   private async getClientConf(confId: number): Promise<Conf> {
-    return await ResponseHandle.handle1(this.http.get<CommonResult<Conf>>(`${ url.clientconf }?confId=${ confId }`), this.message);
+    // tslint:disable-next-line:max-line-length
+    return await ResponseHandle.handle1(this.http.get<CommonResult<Conf>>(url.clientconf, { params: { confId: String(confId) } }), this.message);
   }
 
   // 加载所有客户端
